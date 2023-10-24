@@ -12,7 +12,7 @@ class BukuController extends Controller
      */
     public function index()
     {
-        $data_buku = Buku::all();
+        $data_buku = Buku::orderBy('id')->paginate(10);
         $jumlah_buku = count($data_buku);
         $total_harga = Buku::sum('harga');
 
@@ -32,13 +32,20 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'judul' => 'required|string',
+            'penulis'=> 'required|string|max:30',
+            'harga'=> 'required|numeric',
+            'tgl_terbit'=> 'required|date',
+        ]);
+
         Buku::create([
             'judul' => $request->judul,
             'penulis' => $request->penulis,
             'harga' => $request->harga,
             'tgl_terbit' => $request->tgl_terbit,
         ]);
-        return redirect('/buku');
+        return redirect('/buku')->with('message', 'Buku berhasil di simpan');
     }
 
     /**
@@ -63,6 +70,13 @@ class BukuController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $validatedData = $request->validate([
+            'judul' => 'required|string',
+            'penulis'=> 'required|string|max:30',
+            'harga'=> 'required|numeric',
+            'tgl_terbit'=> 'required|date',
+        ]);
+        
         $buku = Buku::find($id);
         $buku->update([
             'judul' => $request->judul,

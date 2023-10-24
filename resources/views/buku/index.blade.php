@@ -3,6 +3,14 @@
 @section('title', "Daftar Buku")
 
 @section('content')
+<div class="flash-message">
+    @if (session()->has('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif
+</div>
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -43,9 +51,29 @@
         @endforeach
     </tbody>
 </table>
+
+{{ $data_buku->links() }}
+
 <h4>Jumlah Buku: {{ $jumlah_buku }}</h4>
 <h4>Total Harga Buku: {{"Rp ".number_format($total_harga, 2, ',', '.') }}</h4>
 
 <a href="{{route('buku.create')}}" class="btn btn-success">Tambah buku</a>
+
+<script>
+    // Wait for the document to be fully loaded
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the flash message div by its ID
+        var flashMessage = document.getElementById("flash-message");
+        
+        // Check if the flash message element exists
+        if (flashMessage) {
+            // Set a timeout to hide the div after, for example, 5 seconds (5000 milliseconds)
+            setTimeout(function() {
+                flashMessage.style.display = "none"; // Hide the div
+            }, 3000); // Adjust the timeout value as needed (5 seconds in this example)
+        }
+    });
+</script>
+
 
 @endsection
