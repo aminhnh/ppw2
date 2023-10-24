@@ -27,3 +27,6 @@ Route::post('/buku/edit/{id}', [BukuController::class, 'edit'])->name('buku.edit
 
 // Menyimpan yang telah diedit
 Route::post('/buku/update/{id}', [BukuController::class, 'update'])->name('buku.update');
+
+Route::get('/buku/search', [BukuController::class,'search'])->name('buku.search');
+

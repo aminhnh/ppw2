@@ -1,8 +1,13 @@
 @extends('layouts.layout')
 
-@section('title', "Daftar Buku")
+@section('title', 'Edit Book')
 
 @section('content')
+
+@if(count($data_buku))
+    <div class="alert alert-success">Ditemukan <strong> {{count($data_buku)}} </strong> data dengan kata: <strong>{{$cari}}</strong>
+    </div>
+
 <div class="flash-message">
     @if (session()->has('message'))
         <div class="alert alert-success">
@@ -60,9 +65,12 @@
 {{ $data_buku->links() }}
 
 <h4>Jumlah Buku: {{ $jumlah_buku }}</h4>
-<h4>Total Harga Buku: {{"Rp ".number_format($total_harga, 2, ',', '.') }}</h4>
 
-<a href="{{route('buku.create')}}" class="btn btn-success">Tambah buku</a>
+@else
+    <div class="alert alert-warning"> <h4> Data {{$cari}} tidak ditemukan </h4>
+    <a href="/buku" class="btn btn-warning">Kembali</a></div>
+@endif
+
 
 <script>
     // Wait for the document to be fully loaded
@@ -79,6 +87,7 @@
         }
     });
 </script>
+
 
 
 @endsection

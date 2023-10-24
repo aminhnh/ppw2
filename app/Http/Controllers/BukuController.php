@@ -97,4 +97,16 @@ class BukuController extends Controller
         $buku->delete();
         return redirect('/buku');
     }
+
+    public function search(Request $request)
+    {
+        $batas = 10;
+        $cari = $request->kata;
+        
+        $data_buku = Buku::where('judul', 'LIKE','%'.$cari.'%')->orwhere('penulis', 'like', '%'.$cari.'%')->paginate($batas);
+        $jumlah_buku = $data_buku->count();
+        $no = $batas * ($data_buku->currentPage()-1);
+
+        return view('buku.search', compact('jumlah_buku','data_buku','no','cari'));
+    }
 }
