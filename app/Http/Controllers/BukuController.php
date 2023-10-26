@@ -16,7 +16,7 @@ class BukuController extends Controller
         $jumlah_buku = count($data_buku);
         $total_harga = Buku::sum('harga');
 
-        return view('buku.index', compact('data_buku', 'jumlah_buku', 'total_harga'));
+        return view('dashboard', compact('data_buku', 'jumlah_buku', 'total_harga'));
     }
 
     /**
