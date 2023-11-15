@@ -19,6 +19,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th>Thumbnail</th>
             <th>ID</th>
             <th>Judul Buku</th>
             <th>Penulis</th>
@@ -29,7 +30,18 @@
     </thead>
     <tbody>
         @foreach($data_buku as $buku)
-            <tr>
+
+        
+            <tr>   
+                <td>
+                @if($buku->filepath)
+                <div class="relative h-10 w-10">
+                    <img src="{{ asset($buku->filepath) }}" 
+                    class="h-full w-full rounded-full object-cover object-center"
+                    alt="image">
+                </div>
+                @endif
+                </td>
                 <td>{{ $buku->id }}</td>
                 <td>{{ $buku->judul }}</td>
                 <td>{{ $buku->penulis }}</td>

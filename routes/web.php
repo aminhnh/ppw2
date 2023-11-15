@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\BukuController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BukuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +20,10 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return redirect()->route('buku');
+    return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/buku', [BukuController::class, 'index'])->name('buku');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -32,14 +34,12 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-// Route::resource('/buku', BukuController::class);
-Route::get('/buku', [BukuController::class, 'index'])->name('buku');
 Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
 Route::post('/buku/store', [BukuController::class, 'store'])->name('buku.store');
 Route::post('/buku/delete/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
 Route::post('/buku/edit/{id}', [BukuController::class, 'edit'])->name('buku.edit');
-
-// Menyimpan yang telah diedit
 Route::post('/buku/update/{id}', [BukuController::class, 'update'])->name('buku.update');
-
 Route::get('/buku/search', [BukuController::class,'search'])->name('buku.search');
+
+Route::delete('/buku/galeri/delete/{id}', [BukuController::class,'destroyGaleri'])->name('buku.destroy-galeri');
+
