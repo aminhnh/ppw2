@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicViewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BukuController;
 
@@ -43,3 +44,6 @@ Route::get('/buku/search', [BukuController::class,'search'])->name('buku.search'
 
 Route::delete('/buku/galeri/delete/{id}', [BukuController::class,'destroyGaleri'])->name('buku.destroy-galeri');
 
+
+Route::get('/list-buku', [PublicViewController::class, 'showList'])->name('buku.list-buku');
+Route::get('/detail-buku/{id}', [PublicViewController::class, 'showDetail'])->name('buku.detail');

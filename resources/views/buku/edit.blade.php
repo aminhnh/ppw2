@@ -17,7 +17,9 @@
 
 
 
-<form enctype="multipart/form-data" action="{{route('buku.update', $buku->id)}}" method="post">
+<form   enctype="multipart/form-data" 
+        action="{{route('buku.update', $buku->id)}}" 
+        method="post">
     @csrf
     @method('POST')
     <div>Judul<br>
@@ -54,7 +56,7 @@
         @foreach($buku->galleries()->get() as $galeri)
         <div class="gallery-item">
             <img src="{{ asset($galeri->path) }}" 
-            class="rounded-full object-cover object-center"
+            class="object-cover object-center"
             alt="galeri"
             width="200"
             >

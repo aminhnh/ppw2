@@ -187,29 +187,34 @@ class BukuController extends Controller
 
     public function destroyGaleri($id)
     {
+        
         $galeri = Galeri::findOrFail($id);
 
         $buku_id = $galeri->buku_id;
 
         $galeri->delete();
 
-        if ($galeri) {
-            // Delete the Galeri model
-            $galeri->delete();
-        
-            // Check if it has been deleted
-            if (Galeri::find($id) === null) {
-                // The Galeri model has been deleted successfully
-                return redirect()->back()->with('success', 'Galeri item deleted successfully');
-            } else {
-                // The Galeri model was not deleted
-                return redirect()->back()->with('error', 'Failed to delete Galeri item');
-            }
-        } else {
-            // Galeri model not found
-            return redirect()->back()->with('error', 'Galeri item not found');
-        }
+        // return redirect()->back();
 
-        // return redirect()->route('buku.edit', ['id' => $buku_id])->with('success', 'Gallery item deleted successfully');
+        // if ($galeri) {
+        //     // Delete the Galeri model
+        //     $galeri->delete();
+        
+        //     // Check if it has been deleted
+        //     if (Galeri::find($id) === null) {
+        //         // The Galeri model has been deleted successfully
+        //         return redirect()->back()->with('success', 'Galeri item deleted successfully');
+        //     } else {
+        //         // The Galeri model was not deleted
+        //         return redirect()->back()->with('error', 'Failed to delete Galeri item');
+        //     }
+        // } else {
+        //     // Galeri model not found
+        //     return redirect()->back()->with('error', 'Galeri item not found');
+        // }
+        
+        return redirect()->route('buku.edit', ['id' => $buku_id])->with('success', 'Gallery item deleted successfully');
     }
+
+
 }
