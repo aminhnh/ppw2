@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+use App\Models\Favorite;
 use App\Models\Galeri;
+use App\Models\Rating;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Auth;
+
 
 class BukuController extends Controller
 {
@@ -216,5 +220,64 @@ class BukuController extends Controller
         return redirect()->route('buku.edit', ['id' => $buku_id])->with('success', 'Gallery item deleted successfully');
     }
 
+    public function rate(Request $request, $id)
+    {
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
 
+        $buku = Buku::findOrFail($id);
+
+        $existingRating = Rating::where('user_id', auth()->id())->where('buku_id', $buku->id)->first();
+
+        if ($existingRating) {
+            $existingRating->update(['value' => $request->input('rating')]);
+        } else {
+            Rating::create([
+                'user_id' => auth()->id(),
+                'buku_id' => $buku->id,
+                'value' => $request->input('rating'),
+            ]);
+        }
+
+        return redirect()->route('buku.detail', $id)->with('success', 'Book rated successfully!');
+    }
+
+    public function addFav($id)
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $buku = Buku::find($id);
+
+            if (!$buku) {
+                return redirect()->back()->with('error', 'Book not found.');
+            }
+
+            if (!$user->favorites()->where('buku_id', $buku->id)->exists()) {
+                $favorite = new Favorite([
+                    'buku_id' => $buku->id,
+                    'user_id' => $user->id,
+                ]);
+                $favorite->save();
+
+                return redirect()->back()->with('success', 'Book added to favorites successfully.');
+            }
+
+            return redirect()->back()->with('error', 'Book is already in favorites.');
+        }
+
+        return redirect()->route('login')->with('error', 'You must be logged in to add a book to favorites.');
+    }
+    public function showFav()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $data_buku_fav = $user->favorites()->with('buku')->paginate(10);
+            $jumlah_buku = $user->favorites->count();
+
+            return view('buku.fav', compact('data_buku_fav', 'jumlah_buku'));
+        } else {
+            return redirect()->route('login')->with('error', 'You must be logged in to view favorites.');
+        }
+    }
 }

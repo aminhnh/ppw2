@@ -14,7 +14,14 @@ class PublicViewController extends Controller
     }
     public function showDetail(string $id)
     {
-        $buku = Buku::find($id);
-        return view('buku.detail', compact('buku'));
+        $buku = Buku::with('ratings')->find($id);
+
+        if ($buku->ratings->isNotEmpty()) {
+            $buku_rating = $buku->ratings->avg('value');
+        } else {
+            $buku_rating = null;
+        }
+
+        return view('buku.detail', compact('buku', 'buku_rating'));
     }
 }

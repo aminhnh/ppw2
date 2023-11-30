@@ -22,5 +22,13 @@ class Buku extends Model
     {
         return $this->hasMany(Galeri::class);
     }
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'buku_id');
+    }
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
 }
 

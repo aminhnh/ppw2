@@ -39,13 +39,12 @@
             <th>Penulis</th>
             <th>Harga</th>
             <th>Tanggal Terbit</th>
-            <th colspan="2">Aksi</th>
+            <th colspan="3">Aksi</th>
         </tr>
     </thead>
     <tbody class="text-left bg-white divide-y divide-gray-200">
-        @foreach($data_buku as $buku)
-            <tr>
-                <td>{{ $buku->id }}</td>
+        @foreach($data_buku as $index => $buku)
+        <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}" onclick="window.location='{{ route('buku.detail', ['id' => $buku->id]) }}';" style="cursor: pointer;">                <td class="text-center">{{ $buku->id }}</td>
                 <td>
                     @if($buku->filepath)
                     <div class="px-8 py-8">
@@ -59,18 +58,29 @@
                 <td>{{ $buku->penulis }}</td>
                 <td>{{ "Rp ".number_format($buku->harga, 2, ',', '.') }}</td>
                 <td>{{ \Carbon\Carbon::parse($buku->tgl_terbit)->format('d/m/Y')}}</td>
-                <td class="flex">
+                <td>
                     <form action="{{ route('buku.edit', $buku->id) }}" method="post">
                         @csrf 
                         <button class="bg-blue-500 text-white rounded-md py-1 px-4">
                             Edit
                         </button>
                     </form>
+                </td>
+                <td>
                     <form action="{{ route('buku.destroy', $buku->id) }}" method="post">
                         @csrf 
                         <button onclick="return confirm('Hapus buku {{$buku->judul}} ?')" 
                                 class="bg-red-500 text-white rounded-md py-1 px-4">
                             Hapus
+                        </button>
+                    </form>
+                </td>
+                </td>
+                <td>
+                    <form action="{{ route('buku.addfav', $buku->id) }}" method="post">
+                        @csrf 
+                        <button class="bg-yellow-500 text-white rounded-md py-1 px-4">
+                            +Favourite
                         </button>
                     </form>
                 </td>

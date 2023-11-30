@@ -47,3 +47,8 @@ Route::delete('/buku/galeri/delete/{id}', [BukuController::class,'destroyGaleri'
 
 Route::get('/list-buku', [PublicViewController::class, 'showList'])->name('buku.list-buku');
 Route::get('/detail-buku/{id}', [PublicViewController::class, 'showDetail'])->name('buku.detail');
+Route::post('/rate/book/{id}', [BukuController::class,'rate'])->name('rate.book');
+
+
+Route::get('/buku/myFavourite', [BukuController::class, 'showFav'])->name('buku.fav');
+Route::post('buku/add-favorite/{id}', [BukuController::class, 'addFav'])->name('buku.addfav');

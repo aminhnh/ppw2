@@ -21,6 +21,11 @@
                         {{ __('Daftar Buku') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('buku.fav')" :active="request()->routeIs('buku.fav')">
+                        {{ __('Buku Favoritku') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
