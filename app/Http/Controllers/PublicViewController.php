@@ -24,4 +24,13 @@ class PublicViewController extends Controller
 
         return view('buku.detail', compact('buku', 'buku_rating'));
     }
+    public function showListPopuler()
+    {
+        $data_buku = Buku::withCount('ratings as average_rating')
+        ->orderByDesc('average_rating')
+        ->limit(10)
+        ->get();
+
+        return view('buku.list_buku_populer', compact('data_buku'));
+    }
 }

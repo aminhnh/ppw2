@@ -43,7 +43,9 @@
     </thead>
     <tbody class="text-left bg-white divide-y divide-gray-200">
         @foreach($data_buku_fav as $index => $fav)
-        <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}" onclick="window.location='{{ route('buku.detail', ['id' => $fav->buku->id]) }}';" style="cursor: pointer;">
+        <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}" 
+            onclick="window.location='{{ route('buku.detail', ['id' => $fav->buku->id]) }}';" 
+            style="cursor: pointer;">
             <td class="text-center">{{ $fav->buku->id }}</td>
             <td>
                 @if($fav->buku->filepath)
