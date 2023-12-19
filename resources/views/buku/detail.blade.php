@@ -114,5 +114,11 @@
     </div>
 </section>
 
+@foreach($reviews as $review)
+    <div>
+        <p>Rating: {{ $review->rating }}</p>
+        <p>Review: {{ $review->review }}</p>
+    </div>
+@endforeach
 
 @endsection
