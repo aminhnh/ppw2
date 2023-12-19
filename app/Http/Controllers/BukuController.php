@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+use App\Models\Category;
 use App\Models\Favorite;
 use App\Models\Galeri;
 use App\Models\Rating;
@@ -279,5 +280,24 @@ class BukuController extends Controller
         } else {
             return redirect()->route('login')->with('error', 'You must be logged in to view favorites.');
         }
+    }
+    public function getBooksByCategory($category)
+    {
+        $category = Category::where('nama', $category)->first();
+    
+        if (!$category) {
+            abort(404, 'Category not found');
+        }
+    
+        $data_buku = $category->books;
+        return view('buku.list_buku_kategori', compact('category', 'data_buku'));
+    }
+    public function addCategory(Request $request, Buku $buku)
+    {
+        $category = Category::findOrFail($request->input('category_id'));
+
+        $buku->categories()->attach($category);
+
+        return redirect()->back()->with('success', 'Category added successfully.');
     }
 }

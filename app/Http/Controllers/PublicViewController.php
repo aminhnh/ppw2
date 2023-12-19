@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class PublicViewController extends Controller
@@ -21,8 +22,8 @@ class PublicViewController extends Controller
         } else {
             $buku_rating = null;
         }
-
-        return view('buku.detail', compact('buku', 'buku_rating'));
+        $categories = Category::all();
+        return view('buku.detail', compact('buku', 'buku_rating', 'categories'));
     }
     public function showListPopuler()
     {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicViewController;
 use Illuminate\Support\Facades\Route;
@@ -53,3 +54,9 @@ Route::post('/rate/book/{id}', [BukuController::class,'rate'])->name('rate.book'
 
 Route::get('/buku/myFavourite', [BukuController::class, 'showFav'])->name('buku.fav');
 Route::post('buku/add-favorite/{id}', [BukuController::class, 'addFav'])->name('buku.addfav');
+
+
+Route::resource('categories', CategoryController::class);
+Route::get('category/{category}', [BukuController::class,'getBooksByCategory'])->name('buku.by.category');
+
+Route::post('/add-category/{buku}', [BukuController::class, 'addCategory'])->name('add.category');

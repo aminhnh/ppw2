@@ -58,7 +58,12 @@
                         Rating not available.
                     @endif
                 </p>
-
+                <h3>Categories:</h3>
+                @forelse($buku->categories as $category)
+                    <span>{{ $category->nama }}</span>
+                @empty
+                    <p>No categories found for this book.</p>
+                @endforelse
             </div>
             <hr class="my-4">
             <form action="{{ route('buku.addfav', $buku->id) }}" method="post">
@@ -69,6 +74,20 @@
                     </form>
             <br><br>
             @if(auth()->check())
+                @if(auth()->user()->isAdmin())
+                    <form action="{{ route('add.category', $buku->id) }}" method="post">
+                        @csrf
+                        <label for="category_id">Select Category:</label><br>
+                        <select name="category_id" id="category_id" required>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->nama }}</option>
+                            @endforeach
+                        </select>
+                        <button type="submit" class="bg-green-500 text-white rounded-md py-1 px-4">
+                            Add Category
+                        </button>
+                    </form>
+                @endif
                 <form action="{{ route('rate.book', $buku->id) }}" method="post">
                     @csrf
                     <label for="rating">Rate this book:</label><br>
